@@ -1,0 +1,127 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+abstract class Tarea {
+    private String titulo;
+    private String descripcion;
+
+    public Tarea(String titulo, String descripcion) {
+        this.titulo = titulo;
+        this.descripcion = descripcion;
+    }
+
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public abstract void mostrarDetalles();
+}
+
+class TareaPersonal extends Tarea {
+    private String prioridad;
+
+    public TareaPersonal(String titulo, String descripcion, String prioridad) {
+        super(titulo, descripcion);
+        this.prioridad = prioridad;
+    }
+
+   
+    public void mostrarDetalles() {
+        System.out.println("Tarea Personal - Prioridad: " + prioridad);
+        System.out.println("Título: " + getTitulo());
+        System.out.println("Descripción: " + getDescripcion());
+    }
+}
+
+class TareaProfesional extends Tarea {
+    private String proyecto;
+
+    public TareaProfesional(String titulo, String descripcion, String proyecto) {
+        super(titulo, descripcion);
+        this.proyecto = proyecto;
+    }
+
+    @Override
+    public void mostrarDetalles() {
+        System.out.println("Tarea Profesional - Proyecto: " + proyecto);
+        System.out.println("Título: " + getTitulo());
+        System.out.println("Descripción: " + getDescripcion());
+    }
+}
+
+public class BlogDeNotas {
+    public static void main(String[] args) {
+        ArrayList<Tarea> listaTareas = new ArrayList<>();
+        Scanner scanner = new Scanner(System.in);
+
+        while (true) {
+            System.out.println("\nMenu:");
+            System.out.println("1. Agregar Tarea Personal");
+            System.out.println("2. Agregar Tarea Profesional");
+            System.out.println("3. Ver Tareas");
+            System.out.println("4. Eliminar Tarea");
+            System.out.println("5. Salir");
+            System.out.print("Seleccione una opción: ");
+
+            int opcion = scanner.nextInt();
+            scanner.nextLine(); 
+
+            switch (opcion) {
+                case 1:
+                    System.out.print("Ingrese el título: ");
+                    String tituloPersonal = scanner.nextLine();
+                    System.out.print("Ingrese la descripción: ");
+                    String descripcionPersonal = scanner.nextLine();
+                    System.out.print("Ingrese la prioridad: ");
+                    String prioridad = scanner.nextLine();
+                    listaTareas.add(new TareaPersonal(tituloPersonal, descripcionPersonal, prioridad));
+                    break;
+
+                case 2:
+                    System.out.print("Ingrese el título: ");
+                    String tituloProfesional = scanner.nextLine();
+                    System.out.print("Ingrese la descripción: ");
+                    String descripcionProfesional = scanner.nextLine();
+                    System.out.print("Ingrese el proyecto: ");
+                    String proyecto = scanner.nextLine();
+                    listaTareas.add(new TareaProfesional(tituloProfesional, descripcionProfesional, proyecto));
+                    break;
+
+                case 3:
+                    System.out.println("\nTareas:");
+                    for (int i = 0; i < listaTareas.size(); i++) {
+                        System.out.println("ID: " + i);
+                        listaTareas.get(i).mostrarDetalles();
+                        System.out.println("-------------");
+                    }
+                    break;
+
+                case 4:
+                    System.out.print("Ingrese el ID de la tarea a eliminar: ");
+                    int idEliminar = scanner.nextInt();
+                    if (idEliminar >= 0 && idEliminar < listaTareas.size()) {
+                        listaTareas.remove(idEliminar);
+                        System.out.println("Tarea eliminada.");
+                    } else {
+                        System.out.println("ID inválido.");
+                    }
+                    break;
+
+                case 5:
+                    System.out.println("Saliendo del menú...");
+                    scanner.close();
+                    System.exit(0);
+                    break;
+
+                default:
+                    System.out.println("Opción inválida. Por favor, seleccione una opción válida.");
+                    break;
+            }
+        
+ }
+}
+}
